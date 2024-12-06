@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mis Reservas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let reserva of reservas">
+      <ion-label>
+        <h2>{{ reserva.fecha }} - {{ reserva.hora }}</h2>
+        <p>{{ reserva.nombreCompletoMedico }} - {{ reserva.especialidad }}</p>
+        <p>RUT: {{ reserva.rutPaciente }}</p>
+        <p>Estado: {{ reserva.estado }}</p>
+      </ion-label>
+      <ion-button slot="end" color="danger" (click)="eliminarReserva(reserva.id)">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+  <a [routerLink]="['/reservas']" class="btn btn-primary">Ir a reservar </a>
+</ion-content>

@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Reservar Hora</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="reservasForm" [formGroup]="reservasForm" (ngSubmit)="reservarHora()">
+    <!-- Selección de Especialidad -->
+    <ion-item>
+      <ion-label>Seleccione una Especialidad</ion-label>
+      <ion-select formControlName="especialidad" (ionChange)="onEspecialidadChange($event.detail.value)">
+        <ion-select-option *ngFor="let especialidad of especialidades" [value]="especialidad.nombre">{{ especialidad.nombre }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Selección de Médico -->
+    <ion-item *ngIf="medicos.length > 0">
+      <ion-label>Seleccione un Médico</ion-label>
+      <ion-select formControlName="medicoId" (ionChange)="onMedicoChange($event.detail.value)">
+        <ion-select-option *ngFor="let medico of medicos" [value]="medico.id">{{ medico.nombre }} {{ medico.apellido }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Selección de Fecha -->
+    <ion-item *ngIf="disponibilidad.length > 0">
+      <ion-label>Seleccione una Fecha</ion-label>
+      <ion-datetime presentation="date" [firstDayOfWeek]="1" display-format="YYYY-MM-DD" picker-format="YYYY-MM-DD" [isDateEnabled]="isWeekday"
+                    formControlName="fecha" [min]="minDate" (ionChange)="onFechaChange($event.detail.value)"></ion-datetime>
+    </ion-item>
+
+    <!-- Selección de Hora -->
+    <ion-item *ngIf="horasDisponibles.length > 0">
+      <ion-label>Seleccione una Hora</ion-label>
+      <div class="hora-buttons">
+        <ion-button *ngFor="let hora of horasDisponibles" [color]="horaSeleccionada === hora ? 'primary' : 'light'" (click)="seleccionarHora(hora)">
+          {{ hora }}
+        </ion-button>
+      </div>
+    </ion-item>
+
+    <!-- Botón para reservar -->
+    <ion-button expand="full" type="submit" [disabled]="!reservasForm.valid">Reservar Hora</ion-button>
+  </form>
+</ion-content>
+
+<style>
+  .hora-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .hora-buttons ion-button {
+    border-radius: 20px;
+  }
+</style>
