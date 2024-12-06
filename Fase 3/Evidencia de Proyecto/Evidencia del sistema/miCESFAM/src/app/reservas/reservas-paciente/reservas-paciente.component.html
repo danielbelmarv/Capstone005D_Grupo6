@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mis Reservas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <div class="filtro-container">
+    <h3>Filtrar Reservas</h3>
+    
+    <!-- Filtro por Estado -->
+    <div class="filtro-estado">
+      <ion-button
+        *ngFor="let estado of ['Todas', 'Confirmada', 'Pendiente', 'Completada']"
+        [ngClass]="{'boton-activo': filtroEstado === estado, 'boton-inactivo': filtroEstado !== estado}"
+        (click)="setFiltroEstado(estado)">
+        {{ estado }}
+</ion-button>
+
+    </div>
+
+    <!-- Filtro por Año y Mes -->
+    <div class="filtro-fecha">
+      <ion-item>
+        <ion-label>Año</ion-label>
+        <ion-select [(ngModel)]="filtroAnio" (ionChange)="filtrarReservas()">
+          <ion-select-option *ngFor="let anio of aniosDisponibles">{{ anio }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      
+
+      <ion-item>
+        <ion-label>Mes</ion-label>
+        <ion-select [(ngModel)]="filtroMes" (ionChange)="filtrarReservas()">
+          <ion-select-option *ngFor="let mes of mesesDisponibles" [value]="mes.value">{{ mes.label }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+  </div>
+
+  <!-- Lista de Reservas Filtradas -->
+  <ion-list>
+    <ion-item *ngFor="let reserva of reservasFiltradas" class="reserva-card">
+      <ion-label>
+        <h2>{{ reserva.fecha }} - {{ reserva.hora }}</h2>
+        <p><strong>Médico:</strong> {{ reserva.nombreCompletoMedico }}</p>
+        <p><strong>Especialidad:</strong> {{ reserva.especialidad }}</p>
+        <p><strong>Estado:</strong>
+          <span [class]="reserva.estado === 'Confirmada' ? 'estado-confirmada' : 'estado-pendiente'">
+            {{ reserva.estado }}
+          </span>
+        </p>
+      </ion-label>
+      <ion-button
+        slot="end"
+        color="danger"
+        (click)="eliminarReserva(reserva.id)"
+        [disabled]="reserva.estado === 'Completada'">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Botón de Acción -->
+  <div class="action-footer">
+    <a [routerLink]="['/reservas']" class="btn-reserva">
+      <ion-icon name="calendar-outline"></ion-icon> Ir a reservar
+    </a>
+  </div>
+</ion-content>

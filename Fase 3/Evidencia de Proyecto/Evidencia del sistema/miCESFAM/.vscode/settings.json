@@ -1,0 +1,12 @@
+{
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "@ionic/angular/common",
+    "@ionic/angular/standalone"
+  ],
+  "cSpell.words": [
+    "authguard",
+    "Datetime",
+    "firestore",
+    "Peñalolen"
+  ]
+}
